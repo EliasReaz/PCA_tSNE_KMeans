@@ -52,10 +52,16 @@ data_for_cluster = pd.pivot_table(df3, index="customer_id", \
     columns="product_area_name", values="sales_cost", aggfunc="sum", fill_value=0, margins=True, margins_name="total_sales").rename_axis(None, axis=1)
 print(data_for_cluster.head())
 
-# percent of sales
+# turn sales into percent of sales
 data_for_cluster = data_for_cluster.div(data_for_cluster["total_sales"], axis=0)
+print(data_for_cluster.head())
 # drop total column
 data_for_cluster = data_for_cluster.drop(columns="total_sales", axis=1)
+print(data_for_cluster.head())
+
+## check for missing values
+print(data_for_cluster.isna().sum())
+
 
 # normalize data
 scale_norm = MinMaxScaler()
@@ -73,7 +79,7 @@ k_values = list(range(1,10))
 wcss_list = []
 
 for k in k_values:
-    kmeans = KMeans(n_clusters=k, random_state=42)
+    kmeans = KMeans(n_clusters=k, random_state=42, max_iter=1000)
     kmeans.fit(data_for_clustering_scaled)
     wcss_list.append(kmeans.inertia_)
 
@@ -103,6 +109,23 @@ print(data_for_cluster.head())
 ##########################################
 data_for_cluster["cluster"].value_counts()
 
+##############################################
+# check for profile
+###############################################
 
+mean_sales_percnt = data_for_cluster.groupby("cluster").agg(dairy=pd.NamedAgg(column="Dairy", aggfunc="mean"),
+                                     fruit=pd.NamedAgg(column="Fruit", aggfunc="mean"),
+                                     meat=pd.NamedAgg(column="Meat", aggfunc="mean"),
+                                     vegetables=pd.NamedAgg(column="Vegetables", aggfunc="mean"))
 
+print(mean_sales_percnt.head())
 
+colors = ['cyan', 'lightgreen', 'red', 'green'] ## Colors for the bars
+mean_sales_percnt.plot(kind='bar', stacked=True, color=colors) ## Plot
+plt.ticklabel_format(style='plain', useOffset=False, axis='y') ## No offset
+plt.gca().set_ylabel("percent of sales") ## 
+plt.xticks([0,1,2], ["Casual", "Vegetarian", "Vegan"], rotation=0)
+plt.legend(bbox_to_anchor=(1.0, 1.05))
+plt.tight_layout()
+plt.savefig("ABC_grocery_customer_segmentation.png")
+plt.show()
