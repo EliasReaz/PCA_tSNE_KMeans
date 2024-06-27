@@ -127,5 +127,5 @@ plt.gca().set_ylabel("percent of sales") ##
 plt.xticks([0,1,2], ["Casual", "Vegetarian", "Vegan"], rotation=0)
 plt.legend(bbox_to_anchor=(1.0, 1.05))
 plt.tight_layout()
-plt.savefig("ABC_grocery_customer_segmentation.png")
+# plt.savefig("ABC_grocery_customer_segmentation.jpg")
 plt.show()
