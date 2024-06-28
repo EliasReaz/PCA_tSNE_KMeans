@@ -1,5 +1,11 @@
-## PCA_tSNE_KMeans
+## Unsupervised Machine Learning
 
-**Unsupervised learning**
+### Kmeans clustering, Principal Component Analysis (PCA), t_SNE (t-distributed Stochastic Neighbourhood Embedding)
 
-The sample data "Air_Pollution.csv" is collected from my MIT IDSS course. The jupyter notebook is used to answer questions of quiz on PCA.
+**PCA**
+
+
+
+#### sample data:
+- "Air_Pollution.csv" is used for PCA and is collected from my MIT-IDSS online course.
+- "grocery_database.xlsx" is used for KMeans and is collected from Andrew Jone's Data Science Infinity (DSI). 
